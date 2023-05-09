@@ -1,19 +1,15 @@
-package br.com.security.user;
+package br.com.security.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,16 +20,35 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
-public class User implements UserDetails  {
+@Table
+@Inheritance(strategy = InheritanceType.JOINED)
 
+public class User implements UserDetails  {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
-    private String firstName;
-    private String lastName;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String passwordConfirme;
+    @Column
+    private String telephone;
+    @Column
+    private String nom;
+    @Column
+    private String adresse;
+    @Column
+    private Date naissance;
+    @Column
+    private String image;
+    @Column
     private String email;
+    @Column
+
     private String password;
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<Reservation> reservationList=new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;

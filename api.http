@@ -1,6 +1,4 @@
 ### Variables 
-@baseUrl = http://localhost:8080/api/v1
-@token = {{access_token.response.body.token}}
 
 ### Demo Controller, secured endpoint
 GET {{baseUrl}}/demo-controller HTTP/1.1
